@@ -5,9 +5,14 @@ import 'cubit/keranjang_cubit.dart';
 import 'cubit/theme_cubit.dart';
 import 'pages/halaman_produk.dart';
 import 'pages/halaman_keranjang.dart';
+import 'pages/halaman_favorit.dart';
+import 'pages/halaman_pengaturan.dart';
 import 'theme/app_theme.dart';
+import 'helpers/hive_helper.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveHelper.init();
   runApp(const KantinKampusApp());
 }
 
@@ -45,7 +50,13 @@ class KerangkaUtama extends StatefulWidget {
 
 class _KerangkaUtamaState extends State<KerangkaUtama> {
   int _indeks = 0;
-  final _halaman = const [HalamanProduk(), HalamanKeranjang()];
+
+  final _halaman = const [
+    HalamanProduk(),
+    HalamanKeranjang(),
+    HalamanPengaturan(),
+    HalamanFavorit(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +71,11 @@ class _KerangkaUtamaState extends State<KerangkaUtama> {
             icon: Icon(Icons.shopping_cart),
             label: 'Keranjang',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Pengaturan',
+          ),
+          NavigationDestination(icon: Icon(Icons.favorite), label: 'Favorit'),
         ],
       ),
     );
